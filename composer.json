@@ -2,13 +2,34 @@
     "name": "phpactor/worse-reflection-extension",
     "description": "Worse Reflection",
     "license": "MIT",
+    "type": "phpactor-extension",
     "authors": [
         {
             "name": "Daniel Leech",
             "email": "daniel@dantleech.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/home/daniel/www/phpactor/class-to-file-extension"
+        },
+        {
+            "type": "path",
+            "url": "/home/daniel/www/phpactor/composer-autoloader-extension"
+        },
+        {
+            "type": "path",
+            "url": "/home/daniel/www/phpactor/project-root-extension"
+        }
+    ],
     "require": {
+        "phpactor/container": "^1.2",
+        "phpactor/worse-reflection": "^0.1",
+        "phpactor/logging-extension": "^0.1",
+        "phpactor/project-root-extension": "dev-master",
+        "phpactor/class-to-file-extension": "dev-master",
+        "phpactor/composer-autoloader-extension": "dev-master"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.10.5",
@@ -25,9 +46,5 @@
             "Phpactor\\Extension\\WorseReflection\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        }
-    }
+    "phpactor.extension_class": "Phpactor\\Exension\\WorseReflectionExtension"
 }
