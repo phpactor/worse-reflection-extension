@@ -13,21 +13,13 @@
         {
             "type": "path",
             "url": "/home/daniel/www/phpactor/class-to-file-extension"
-        },
-        {
-            "type": "path",
-            "url": "/home/daniel/www/phpactor/composer-autoloader-extension"
-        },
-        {
-            "type": "path",
-            "url": "/home/daniel/www/phpactor/project-root-extension"
         }
     ],
     "require": {
         "phpactor/container": "^1.2",
-        "phpactor/worse-reflection": "^0.1",
+        "phpactor/worse-reflection": "dev-master",
         "phpactor/logging-extension": "^0.1",
-        "phpactor/project-root-extension": "dev-master",
+        "phpactor/file-path-resolver-extension": "dev-master",
         "phpactor/class-to-file-extension": "dev-master",
         "phpactor/composer-autoloader-extension": "dev-master"
     },

@@ -4,8 +4,8 @@ namespace Phpactor\Extension\WorseReflection;
 
 use Phpactor\Exension\Logger\LoggingExtension;
 use Phpactor\Extension\ClassToFile\ClassToFileExtension;
-use Phpactor\Extension\ProjectRoot\ProjectRootExtension;
 use Phpactor\Extension\WorseReflection\LanguageServer\WorseReflectionLanguageExtension;
+use Phpactor\FilePathResolverExtension\FilePathResolverExtension;
 use Phpactor\WorseReflection\Core\SourceCodeLocator\NativeReflectionFunctionSourceLocator;
 use Phpactor\WorseReflection\Bridge\PsrLog\PsrLogger;
 use Phpactor\WorseReflection\Core\SourceCodeLocator\StubSourceLocator;
@@ -29,8 +29,8 @@ class WorseReflectionExtension implements Extension
     const TAG_SOURCE_LOCATOR = 'worse_reflection.source_locator';
 
     const PARAM_ENABLE_CACHE = 'worse_reflection.enable_cache';
-    const PARAM_VENDOR_DIR = 'worse_reflection.vendor_dir';
-    const PARAM_STUB_DIRECTORY = 'worse_reflection.stub_directory';
+    const PARAM_STUB_DIR = 'worse_reflection.stub_dir';
+    const PARAM_STUB_CACHE_DIR = 'worse_reflection.cache_dir';
 
     /**
      * {@inheritDoc}
@@ -38,8 +38,9 @@ class WorseReflectionExtension implements Extension
     public function configure(Resolver $schema)
     {
         $schema->setDefaults([
-            self::PARAM_STUB_DIRECTORY => 'vendor/jetbrains/phpstorm-stubs',
             self::PARAM_ENABLE_CACHE => true,
+            self::PARAM_STUB_CACHE_DIR => '%cache%/worse-reflection',
+            self::PARAM_STUB_DIR => '%project_root%/vendor/jetbrains/phpstorm-stubs',
         ]);
     }
 
@@ -75,18 +76,15 @@ class WorseReflectionExtension implements Extension
             return new CachedParser();
         });
     }
-        
 
     private function registerSourceLocators(ContainerBuilder $container)
     {
         $container->register('worse_reflection.locator.stub', function (Container $container) {
+            $resolver = $container->get(FilePathResolverExtension::SERVICE_FILE_PATH_RESOLVER);
             return new StubSourceLocator(
                 ReflectorBuilder::create()->build(),
-                implode(DIRECTORY_SEPARATOR, [
-                    $container->getParameter(ProjectRootExtension::PARAM_PROJECT_ROOT_PATH),
-                    $container->getParameter(self::PARAM_STUB_DIRECTORY),
-                ]),
-                $container->getParameter(self::PARAM_CACHE_DIR)
+                $resolver->resolve($container->getParameter(self::PARAM_STUB_DIR)),
+                $resolver->resolve($container->getParameter(self::PARAM_STUB_CACHE_DIR))
             );
         }, [ self::TAG_SOURCE_LOCATOR => []]);
 
