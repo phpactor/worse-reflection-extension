@@ -40,6 +40,6 @@
         }
     },
     "extra": {
-        "phpactor.extension_class": "Phpactor\\Exension\\WorseReflectionExtension"
+        "phpactor.extension_class": "Phpactor\\Extension\\WorseReflection\\WorseReflectionExtension"
     }
 }
