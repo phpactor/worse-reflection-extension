@@ -3,6 +3,7 @@
     "description": "Worse Reflection",
     "license": "MIT",
     "type": "phpactor-extension",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Daniel Leech",
@@ -38,5 +39,7 @@
             "Phpactor\\Extension\\WorseReflection\\Tests\\": "tests/"
         }
     },
-    "phpactor.extension_class": "Phpactor\\Exension\\WorseReflectionExtension"
+    "extra": {
+        "phpactor.extension_class": "Phpactor\\Exension\\WorseReflectionExtension"
+    }
 }
