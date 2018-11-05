@@ -4,7 +4,7 @@ namespace Phpactor\Extension\WorseReflection\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Phpactor\Container\PhpactorContainer;
-use Phpactor\Exension\Logger\LoggingExtension;
+use Phpactor\Extension\Logger\LoggingExtension;
 use Phpactor\Extension\ClassToFile\ClassToFileExtension;
 use Phpactor\Extension\ComposerAutoloader\ComposerAutoloaderExtension;
 use Phpactor\Extension\WorseReflection\WorseReflectionExtension;

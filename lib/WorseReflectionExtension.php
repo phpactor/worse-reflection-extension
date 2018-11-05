@@ -2,7 +2,7 @@
 
 namespace Phpactor\Extension\WorseReflection;
 
-use Phpactor\Exension\Logger\LoggingExtension;
+use Phpactor\Extension\Logger\LoggingExtension;
 use Phpactor\Extension\ClassToFile\ClassToFileExtension;
 use Phpactor\Extension\WorseReflection\LanguageServer\WorseReflectionLanguageExtension;
 use Phpactor\FilePathResolverExtension\FilePathResolverExtension;

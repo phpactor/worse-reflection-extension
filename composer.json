@@ -19,7 +19,7 @@
     "require": {
         "phpactor/container": "^1.2",
         "phpactor/worse-reflection": "dev-master",
-        "phpactor/logging-extension": "^0.1",
+        "phpactor/logging-extension": "^0.2",
         "phpactor/file-path-resolver-extension": "dev-master",
         "phpactor/class-to-file-extension": "dev-master",
         "phpactor/composer-autoloader-extension": "dev-master"
