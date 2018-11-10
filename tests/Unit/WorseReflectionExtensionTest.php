@@ -19,6 +19,24 @@ class WorseReflectionExtensionTest extends TestCase
         $this->assertEquals((string) $reflector->reflectClass(__CLASS__)->name(), __CLASS__);
     }
 
+    public function testProvideReflectorWithStubs()
+    {
+        $reflector = $this->createReflector([
+            WorseReflectionExtension::PARAM_STUB_DIR => __DIR__ . '/../../vendor/jetbrains/phpstorm-stubs'
+        ]);
+        $this->assertEquals((string) $reflector->reflectClass(__CLASS__)->name(), __CLASS__);
+    }
+
+    public function testProvideReflectorWithStubsAndCustomCacheDir()
+    {
+        $reflector = $this->createReflector([
+            WorseReflectionExtension::PARAM_STUB_DIR => __DIR__ . '/../../vendor/jetbrains/phpstorm-stubs',
+            WorseReflectionExtension::PARAM_STUB_CACHE_DIR => $cachePath = __DIR__ . '/../../stubs'
+        ]);
+        $this->assertEquals((string) $reflector->reflectClass(__CLASS__)->name(), __CLASS__);
+        $this->assertFileExists($cachePath);
+    }
+
     private function createReflector(array $params = []): Reflector
     {
         $container = PhpactorContainer::fromExtensions([

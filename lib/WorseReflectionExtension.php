@@ -4,7 +4,6 @@ namespace Phpactor\Extension\WorseReflection;
 
 use Phpactor\Extension\Logger\LoggingExtension;
 use Phpactor\Extension\ClassToFile\ClassToFileExtension;
-use Phpactor\Extension\WorseReflection\LanguageServer\WorseReflectionLanguageExtension;
 use Phpactor\FilePathResolverExtension\FilePathResolverExtension;
 use Phpactor\WorseReflection\Core\SourceCodeLocator\NativeReflectionFunctionSourceLocator;
 use Phpactor\WorseReflection\Bridge\PsrLog\PsrLogger;
@@ -15,11 +14,6 @@ use Phpactor\Container\Extension;
 use Phpactor\MapResolver\Resolver;
 use Phpactor\Container\ContainerBuilder;
 use Phpactor\Container\Container;
-use Phpactor\Extension\WorseReflection\Rpc\GotoDefinitionHandler as RpcGotoDefinitionHandler;
-use Phpactor\Extension\WorseReflection\Command\OffsetInfoCommand;
-use Phpactor\Extension\WorseReflection\Application\OffsetInfo;
-use Phpactor\Extension\WorseReflection\Application\ClassReflector;
-use Phpactor\Extension\WorseReflection\Command\ClassReflectorCommand;
 use Phpactor\WorseReflection\Bridge\TolerantParser\Parser\CachedParser;
 use Phpactor\WorseReflection\Bridge\TolerantParser\Reflector\TolerantFactory;
 
@@ -95,6 +89,5 @@ class WorseReflectionExtension implements Extension
         $container->register('worse_reflection.locator.worse', function (Container $container) {
             return new ClassToFileSourceLocator($container->get(ClassToFileExtension::SERVICE_CONVERTER));
         }, [ self::TAG_SOURCE_LOCATOR => []]);
-
     }
 }
