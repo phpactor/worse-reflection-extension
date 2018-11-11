@@ -22,7 +22,7 @@ class WorseReflectionExtensionTest extends TestCase
     public function testProvideReflectorWithStubs()
     {
         $reflector = $this->createReflector([
-            WorseReflectionExtension::PARAM_STUB_DIR => __DIR__ . '/../../vendor/jetbrains/phpstorm-stubs'
+            FilePathResolverExtension::PARAM_APPLICATION_ROOT => __DIR__ . '/../..'
         ]);
         $this->assertEquals((string) $reflector->reflectClass(__CLASS__)->name(), __CLASS__);
     }

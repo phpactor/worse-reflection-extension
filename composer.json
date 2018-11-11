@@ -10,12 +10,6 @@
             "email": "daniel@dantleech.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "path",
-            "url": "/home/daniel/www/phpactor/class-to-file-extension"
-        }
-    ],
     "require": {
         "phpactor/container": "^1.2",
         "phpactor/worse-reflection": "dev-master",

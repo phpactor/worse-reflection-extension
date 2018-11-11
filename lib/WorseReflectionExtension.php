@@ -34,7 +34,7 @@ class WorseReflectionExtension implements Extension
         $schema->setDefaults([
             self::PARAM_ENABLE_CACHE => true,
             self::PARAM_STUB_CACHE_DIR => '%cache%/worse-reflection',
-            self::PARAM_STUB_DIR => '%phpactor_vendor%/jetbrains/phpstorm-stubs',
+            self::PARAM_STUB_DIR => '%application_root%/vendor/jetbrains/phpstorm-stubs',
         ]);
     }
 
