@@ -15,7 +15,9 @@ class WorseReflectionExtensionTest extends TestCase
 {
     public function testProvideReflector()
     {
-        $reflector = $this->createReflector();
+        $reflector = $this->createReflector([
+            FilePathResolverExtension::PARAM_APPLICATION_ROOT => __DIR__,
+        ]);
         $this->assertEquals((string) $reflector->reflectClass(__CLASS__)->name(), __CLASS__);
     }
 
@@ -30,6 +32,7 @@ class WorseReflectionExtensionTest extends TestCase
     public function testProvideReflectorWithStubsAndCustomCacheDir()
     {
         $reflector = $this->createReflector([
+            FilePathResolverExtension::PARAM_APPLICATION_ROOT => __DIR__,
             WorseReflectionExtension::PARAM_STUB_DIR => __DIR__ . '/../../vendor/jetbrains/phpstorm-stubs',
             WorseReflectionExtension::PARAM_STUB_CACHE_DIR => $cachePath = __DIR__ . '/../../stubs'
         ]);
