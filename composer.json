@@ -12,11 +12,11 @@
     ],
     "require": {
         "phpactor/container": "^1.2",
-        "phpactor/worse-reflection": "dev-master",
+        "phpactor/worse-reflection": "~0.1",
         "phpactor/logging-extension": "~0.3",
-        "phpactor/file-path-resolver-extension": "dev-master",
-        "phpactor/class-to-file-extension": "dev-master",
-        "phpactor/composer-autoloader-extension": "dev-master"
+        "phpactor/file-path-resolver-extension": "~0.1",
+        "phpactor/class-to-file-extension": "~0.1",
+        "phpactor/composer-autoloader-extension": "~0.1"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.10.5",
@@ -34,6 +34,9 @@
         }
     },
     "extra": {
-        "phpactor.extension_class": "Phpactor\\Extension\\WorseReflection\\WorseReflectionExtension"
+        "phpactor.extension_class": "Phpactor\\Extension\\WorseReflection\\WorseReflectionExtension",
+        "branch-alias": {
+            "dev-master": "0.x-dev"
+        }
     }
 }
