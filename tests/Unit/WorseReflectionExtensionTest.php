@@ -21,6 +21,15 @@ class WorseReflectionExtensionTest extends TestCase
         $this->assertEquals((string) $reflector->reflectClass(__CLASS__)->name(), __CLASS__);
     }
 
+    public function testRegistersTaggedFramewalkers()
+    {
+        $reflector = $this->createReflector([
+            FilePathResolverExtension::PARAM_APPLICATION_ROOT => __DIR__,
+        ]);
+        $frame = $reflector->reflectClass(__CLASS__)->methods()->get('testRegistersTaggedFramewalkers')->frame();
+        $this->assertCount(1, $frame->locals()->byName('test_variable'));
+    }
+
     public function testProvideReflectorWithStubs()
     {
         $reflector = $this->createReflector([
@@ -47,7 +56,8 @@ class WorseReflectionExtensionTest extends TestCase
             FilePathResolverExtension::class,
             ClassToFileExtension::class,
             ComposerAutoloaderExtension::class,
-            LoggingExtension::class
+            LoggingExtension::class,
+            TestExtension::class,
         ], $params);
 
         return $container->get(WorseReflectionExtension::SERVICE_REFLECTOR);

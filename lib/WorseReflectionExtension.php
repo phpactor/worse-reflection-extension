@@ -21,6 +21,7 @@ class WorseReflectionExtension implements Extension
 {
     const SERVICE_REFLECTOR = 'worse_reflection.reflector';
     const TAG_SOURCE_LOCATOR = 'worse_reflection.source_locator';
+    const TAG_FRAME_WALKER = 'worse_reflection.frame_walker';
 
     const PARAM_ENABLE_CACHE = 'worse_reflection.enable_cache';
     const PARAM_STUB_DIR = 'worse_reflection.stub_dir';
@@ -55,8 +56,12 @@ class WorseReflectionExtension implements Extension
                 $builder->enableCache();
             }
         
-            foreach (array_keys($container->getServiceIdsForTag(self::TAG_SOURCE_LOCATOR)) as $locatorId) {
-                $builder->addLocator($container->get($locatorId));
+            foreach (array_keys($container->getServiceIdsForTag(self::TAG_SOURCE_LOCATOR)) as $serviceId) {
+                $builder->addLocator($container->get($serviceId));
+            }
+
+            foreach (array_keys($container->getServiceIdsForTag(self::TAG_FRAME_WALKER)) as $serviceId) {
+                $builder->addFrameWalker($container->get($serviceId));
             }
         
             $builder->withLogger(
