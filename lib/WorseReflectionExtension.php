@@ -5,6 +5,7 @@ namespace Phpactor\Extension\WorseReflection;
 use Phpactor\Extension\Logger\LoggingExtension;
 use Phpactor\Extension\ClassToFile\ClassToFileExtension;
 use Phpactor\FilePathResolverExtension\FilePathResolverExtension;
+use Phpactor\WorseReflection\Bridge\Phpactor\MethodProvider\DocblockMethodProvider;
 use Phpactor\WorseReflection\Core\SourceCodeLocator\NativeReflectionFunctionSourceLocator;
 use Phpactor\WorseReflection\Bridge\PsrLog\PsrLogger;
 use Phpactor\WorseReflection\Core\SourceCodeLocator\StubSourceLocator;
@@ -22,6 +23,7 @@ class WorseReflectionExtension implements Extension
     const SERVICE_REFLECTOR = 'worse_reflection.reflector';
     const TAG_SOURCE_LOCATOR = 'worse_reflection.source_locator';
     const TAG_FRAME_WALKER = 'worse_reflection.frame_walker';
+    const TAG_METHOD_PROVIDER = 'worse_reflection.method_provider';
 
     const PARAM_ENABLE_CACHE = 'worse_reflection.enable_cache';
     const PARAM_STUB_DIR = 'worse_reflection.stub_dir';
@@ -43,6 +45,7 @@ class WorseReflectionExtension implements Extension
     {
         $this->registerReflection($container);
         $this->registerSourceLocators($container);
+        $this->registerMethodProviders($container);
     }
 
     private function registerReflection(ContainerBuilder $container)
@@ -62,6 +65,10 @@ class WorseReflectionExtension implements Extension
 
             foreach (array_keys($container->getServiceIdsForTag(self::TAG_FRAME_WALKER)) as $serviceId) {
                 $builder->addFrameWalker($container->get($serviceId));
+            }
+
+            foreach (array_keys($container->getServiceIdsForTag(self::TAG_METHOD_PROVIDER)) as $serviceId) {
+                $builder->addMethodProvider($container->get($serviceId));
             }
         
             $builder->withLogger(
@@ -94,5 +101,12 @@ class WorseReflectionExtension implements Extension
         $container->register('worse_reflection.locator.worse', function (Container $container) {
             return new ClassToFileSourceLocator($container->get(ClassToFileExtension::SERVICE_CONVERTER));
         }, [ self::TAG_SOURCE_LOCATOR => []]);
+    }
+
+    private function registerMethodProviders(ContainerBuilder $container)
+    {
+        $container->register('worse_reflection.method_provider.docblock', function (Container $container) {
+            return new DocblockMethodProvider();
+        }, [ self::TAG_METHOD_PROVIDER => []]);
     }
 }
