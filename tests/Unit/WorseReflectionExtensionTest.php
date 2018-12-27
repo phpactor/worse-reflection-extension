@@ -16,7 +16,7 @@ class WorseReflectionExtensionTest extends TestCase
     public function testProvideReflector()
     {
         $reflector = $this->createReflector([
-            FilePathResolverExtension::PARAM_APPLICATION_ROOT => __DIR__,
+            FilePathResolverExtension::PARAM_APPLICATION_ROOT => __DIR__ . '/../..',
         ]);
         $this->assertEquals((string) $reflector->reflectClass(__CLASS__)->name(), __CLASS__);
     }
