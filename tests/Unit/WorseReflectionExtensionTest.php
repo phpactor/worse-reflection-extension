@@ -24,7 +24,7 @@ class WorseReflectionExtensionTest extends TestCase
     public function testRegistersTaggedFramewalkers()
     {
         $reflector = $this->createReflector([
-            FilePathResolverExtension::PARAM_APPLICATION_ROOT => __DIR__,
+            FilePathResolverExtension::PARAM_APPLICATION_ROOT => __DIR__ . '/../..',
         ]);
         $frame = $reflector->reflectClass(__CLASS__)->methods()->get('testRegistersTaggedFramewalkers')->frame();
         $this->assertCount(1, $frame->locals()->byName('test_variable'));
