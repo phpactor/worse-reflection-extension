@@ -2,7 +2,9 @@
 
 namespace Phpactor\Extension\WorseReflection\Tests\Unit;
 
+use Microsoft\PhpParser\Parser;
 use PHPUnit\Framework\TestCase;
+use Phpactor\Container\Container;
 use Phpactor\Container\PhpactorContainer;
 use Phpactor\Extension\Logger\LoggingExtension;
 use Phpactor\Extension\ClassToFile\ClassToFileExtension;
@@ -49,7 +51,23 @@ class WorseReflectionExtensionTest extends TestCase
         $this->assertFileExists($cachePath);
     }
 
+    public function testDisableCache()
+    {
+        $container = $this->createContainer([
+            WorseReflectionExtension::PARAM_ENABLE_CACHE => false
+        ]);
+        self::assertEquals(Parser::class, get_class($container->get(WorseReflectionExtension::SERVICE_PARSER)));
+
+    }
+
     private function createReflector(array $params = []): Reflector
+    {
+        $container = $this->createContainer($params);
+
+        return $container->get(WorseReflectionExtension::SERVICE_REFLECTOR);
+    }
+
+    private function createContainer(array $params): Container
     {
         $container = PhpactorContainer::fromExtensions([
             WorseReflectionExtension::class,
@@ -59,7 +77,6 @@ class WorseReflectionExtensionTest extends TestCase
             LoggingExtension::class,
             TestExtension::class,
         ], $params);
-
-        return $container->get(WorseReflectionExtension::SERVICE_REFLECTOR);
+        return $container;
     }
 }
