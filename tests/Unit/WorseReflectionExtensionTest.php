@@ -15,7 +15,7 @@ use Phpactor\WorseReflection\Reflector;
 
 class WorseReflectionExtensionTest extends TestCase
 {
-    public function testProvideReflector()
+    public function testProvideReflector(): void
     {
         $reflector = $this->createReflector([
             FilePathResolverExtension::PARAM_APPLICATION_ROOT => __DIR__ . '/../..',
@@ -23,7 +23,7 @@ class WorseReflectionExtensionTest extends TestCase
         $this->assertEquals((string) $reflector->reflectClass(__CLASS__)->name(), __CLASS__);
     }
 
-    public function testRegistersTaggedFramewalkers()
+    public function testRegistersTaggedFramewalkers(): void
     {
         $reflector = $this->createReflector([
             FilePathResolverExtension::PARAM_APPLICATION_ROOT => __DIR__ . '/../..',
@@ -32,7 +32,7 @@ class WorseReflectionExtensionTest extends TestCase
         $this->assertCount(1, $frame->locals()->byName('test_variable'));
     }
 
-    public function testProvideReflectorWithStubs()
+    public function testProvideReflectorWithStubs(): void
     {
         $reflector = $this->createReflector([
             FilePathResolverExtension::PARAM_APPLICATION_ROOT => __DIR__ . '/../..'
@@ -40,7 +40,7 @@ class WorseReflectionExtensionTest extends TestCase
         $this->assertEquals((string) $reflector->reflectClass(__CLASS__)->name(), __CLASS__);
     }
 
-    public function testProvideReflectorWithStubsAndCustomCacheDir()
+    public function testProvideReflectorWithStubsAndCustomCacheDir(): void
     {
         $reflector = $this->createReflector([
             FilePathResolverExtension::PARAM_APPLICATION_ROOT => __DIR__,
@@ -51,15 +51,17 @@ class WorseReflectionExtensionTest extends TestCase
         $this->assertFileExists($cachePath);
     }
 
-    public function testDisableCache()
+    public function testDisableCache(): void
     {
         $container = $this->createContainer([
             WorseReflectionExtension::PARAM_ENABLE_CACHE => false
         ]);
         self::assertEquals(Parser::class, get_class($container->get(WorseReflectionExtension::SERVICE_PARSER)));
-
     }
 
+    /**
+     * @param array<string,mixed> $params
+     */
     private function createReflector(array $params = []): Reflector
     {
         $container = $this->createContainer($params);
@@ -67,6 +69,9 @@ class WorseReflectionExtensionTest extends TestCase
         return $container->get(WorseReflectionExtension::SERVICE_REFLECTOR);
     }
 
+    /**
+     * @param array<string,mixed> $params
+     */
     private function createContainer(array $params): Container
     {
         $container = PhpactorContainer::fromExtensions([

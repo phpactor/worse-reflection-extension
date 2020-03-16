@@ -50,7 +50,7 @@ class WorseReflectionExtension implements Extension
         $this->registerMemberProviders($container);
     }
 
-    private function registerReflection(ContainerBuilder $container)
+    private function registerReflection(ContainerBuilder $container): void
     {
         $container->register(self::SERVICE_REFLECTOR, function (Container $container) {
             $builder = ReflectorBuilder::create()
@@ -89,7 +89,7 @@ class WorseReflectionExtension implements Extension
         });
     }
 
-    private function registerSourceLocators(ContainerBuilder $container)
+    private function registerSourceLocators(ContainerBuilder $container): void
     {
         $container->register('worse_reflection.locator.stub', function (Container $container) {
             $resolver = $container->get(FilePathResolverExtension::SERVICE_FILE_PATH_RESOLVER);
@@ -109,7 +109,7 @@ class WorseReflectionExtension implements Extension
         }, [ self::TAG_SOURCE_LOCATOR => []]);
     }
 
-    private function registerMemberProviders(ContainerBuilder $container)
+    private function registerMemberProviders(ContainerBuilder $container): void
     {
         $container->register('worse_reflection.member_provider.docblock', function (Container $container) {
             return new DocblockMemberProvider();
