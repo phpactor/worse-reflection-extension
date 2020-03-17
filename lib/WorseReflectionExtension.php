@@ -2,7 +2,6 @@
 
 namespace Phpactor\Extension\WorseReflection;
 
-use Microsoft\PhpParser\Parser;
 use Phpactor\Extension\Logger\LoggingExtension;
 use Phpactor\Extension\ClassToFile\ClassToFileExtension;
 use Phpactor\FilePathResolverExtension\FilePathResolverExtension;
@@ -29,7 +28,6 @@ class WorseReflectionExtension implements Extension
     const PARAM_ENABLE_CACHE = 'worse_reflection.enable_cache';
     const PARAM_STUB_DIR = 'worse_reflection.stub_dir';
     const PARAM_STUB_CACHE_DIR = 'worse_reflection.cache_dir';
-    const SERVICE_PARSER = 'worse_reflection.tolerant_parser';
 
     /**
      * {@inheritDoc}
@@ -54,7 +52,7 @@ class WorseReflectionExtension implements Extension
     {
         $container->register(self::SERVICE_REFLECTOR, function (Container $container) {
             $builder = ReflectorBuilder::create()
-                ->withSourceReflectorFactory(new TolerantFactory($container->get(self::SERVICE_PARSER)))
+                ->withSourceReflectorFactory(new TolerantFactory($container->get('worse_reflection.tolerant_parser')))
                 ->enableContextualSourceLocation();
 
             if ($container->getParameter(self::PARAM_ENABLE_CACHE)) {
@@ -80,12 +78,8 @@ class WorseReflectionExtension implements Extension
             return $builder->build();
         });
 
-        $container->register(self::SERVICE_PARSER, function (Container $container) {
-            if ($container->getParameter(self::PARAM_ENABLE_CACHE)) {
-                return new CachedParser();
-            }
-
-            return new Parser();
+        $container->register('worse_reflection.tolerant_parser', function (Container $container) {
+            return new CachedParser();
         });
     }
 

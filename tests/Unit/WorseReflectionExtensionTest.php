@@ -2,7 +2,6 @@
 
 namespace Phpactor\Extension\WorseReflection\Tests\Unit;
 
-use Microsoft\PhpParser\Parser;
 use PHPUnit\Framework\TestCase;
 use Phpactor\Container\Container;
 use Phpactor\Container\PhpactorContainer;
@@ -51,14 +50,6 @@ class WorseReflectionExtensionTest extends TestCase
         $this->assertFileExists($cachePath);
     }
 
-    public function testDisableCache(): void
-    {
-        $container = $this->createContainer([
-            WorseReflectionExtension::PARAM_ENABLE_CACHE => false
-        ]);
-        self::assertEquals(Parser::class, get_class($container->get(WorseReflectionExtension::SERVICE_PARSER)));
-    }
-
     /**
      * @param array<string,mixed> $params
      */
@@ -74,7 +65,7 @@ class WorseReflectionExtensionTest extends TestCase
      */
     private function createContainer(array $params): Container
     {
-        $container = PhpactorContainer::fromExtensions([
+        return PhpactorContainer::fromExtensions([
             WorseReflectionExtension::class,
             FilePathResolverExtension::class,
             ClassToFileExtension::class,
@@ -82,6 +73,5 @@ class WorseReflectionExtensionTest extends TestCase
             LoggingExtension::class,
             TestExtension::class,
         ], $params);
-        return $container;
     }
 }
