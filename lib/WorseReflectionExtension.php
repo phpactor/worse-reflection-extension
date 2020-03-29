@@ -28,6 +28,7 @@ class WorseReflectionExtension implements Extension
     const PARAM_ENABLE_CACHE = 'worse_reflection.enable_cache';
     const PARAM_STUB_DIR = 'worse_reflection.stub_dir';
     const PARAM_STUB_CACHE_DIR = 'worse_reflection.cache_dir';
+    const PARAM_CACHE_LIFETIME = 'worse_reflection.cache_lifetime';
 
     /**
      * {@inheritDoc}
@@ -36,6 +37,7 @@ class WorseReflectionExtension implements Extension
     {
         $schema->setDefaults([
             self::PARAM_ENABLE_CACHE => true,
+            self::PARAM_CACHE_LIFETIME => 5.0,
             self::PARAM_STUB_CACHE_DIR => '%cache%/worse-reflection',
             self::PARAM_STUB_DIR => '%application_root%/vendor/jetbrains/phpstorm-stubs',
         ]);
@@ -53,7 +55,8 @@ class WorseReflectionExtension implements Extension
         $container->register(self::SERVICE_REFLECTOR, function (Container $container) {
             $builder = ReflectorBuilder::create()
                 ->withSourceReflectorFactory(new TolerantFactory($container->get('worse_reflection.tolerant_parser')))
-                ->enableContextualSourceLocation();
+                ->enableContextualSourceLocation()
+                ->cacheLifetime($container->getParameter(self::PARAM_CACHE_LIFETIME));
 
             if ($container->getParameter(self::PARAM_ENABLE_CACHE)) {
                 $builder->enableCache();
