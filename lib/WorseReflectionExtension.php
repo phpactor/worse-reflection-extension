@@ -7,7 +7,6 @@ use Phpactor\Extension\ClassToFile\ClassToFileExtension;
 use Phpactor\FilePathResolverExtension\FilePathResolverExtension;
 use Phpactor\WorseReflection\Bridge\Phpactor\MemberProvider\DocblockMemberProvider;
 use Phpactor\WorseReflection\Core\SourceCodeLocator\NativeReflectionFunctionSourceLocator;
-use Phpactor\WorseReflection\Bridge\PsrLog\PsrLogger;
 use Phpactor\WorseReflection\Core\SourceCodeLocator\StubSourceLocator;
 use Phpactor\WorseReflection\Bridge\Phpactor\ClassToFileSourceLocator;
 use Phpactor\WorseReflection\ReflectorBuilder;
@@ -29,6 +28,7 @@ class WorseReflectionExtension implements Extension
     const PARAM_STUB_DIR = 'worse_reflection.stub_dir';
     const PARAM_STUB_CACHE_DIR = 'worse_reflection.cache_dir';
     const PARAM_CACHE_LIFETIME = 'worse_reflection.cache_lifetime';
+    const PARAM_ENABLE_CONTEXT_LOCATION = 'worse_reflection.enable_context_location';
 
     /**
      * {@inheritDoc}
@@ -38,6 +38,7 @@ class WorseReflectionExtension implements Extension
         $schema->setDefaults([
             self::PARAM_ENABLE_CACHE => true,
             self::PARAM_CACHE_LIFETIME => 5.0,
+            self::PARAM_ENABLE_CONTEXT_LOCATION => true,
             self::PARAM_STUB_CACHE_DIR => '%cache%/worse-reflection',
             self::PARAM_STUB_DIR => '%application_root%/vendor/jetbrains/phpstorm-stubs',
         ]);
@@ -55,8 +56,11 @@ class WorseReflectionExtension implements Extension
         $container->register(self::SERVICE_REFLECTOR, function (Container $container) {
             $builder = ReflectorBuilder::create()
                 ->withSourceReflectorFactory(new TolerantFactory($container->get('worse_reflection.tolerant_parser')))
-                ->enableContextualSourceLocation()
                 ->cacheLifetime($container->getParameter(self::PARAM_CACHE_LIFETIME));
+
+            if ($container->getParameter(self::PARAM_ENABLE_CONTEXT_LOCATION)) {
+                $builder->enableContextualSourceLocation();
+            }
 
             if ($container->getParameter(self::PARAM_ENABLE_CACHE)) {
                 $builder->enableCache();
