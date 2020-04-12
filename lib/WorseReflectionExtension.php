@@ -62,8 +62,8 @@ class WorseReflectionExtension implements Extension
                 $builder->enableCache();
             }
         
-            foreach (array_keys($container->getServiceIdsForTag(self::TAG_SOURCE_LOCATOR)) as $serviceId) {
-                $builder->addLocator($container->get($serviceId));
+            foreach ($container->getServiceIdsForTag(self::TAG_SOURCE_LOCATOR) as $serviceId => $attrs) {
+                $builder->addLocator($container->get($serviceId), $attrs['priority'] ?? 0);
             }
 
             foreach (array_keys($container->getServiceIdsForTag(self::TAG_FRAME_WALKER)) as $serviceId) {
@@ -75,7 +75,7 @@ class WorseReflectionExtension implements Extension
             }
         
             $builder->withLogger(
-                new PsrLogger($container->get(LoggingExtension::SERVICE_LOGGER))
+                $container->get(LoggingExtension::SERVICE_LOGGER)
             );
         
             return $builder->build();
