@@ -33,7 +33,7 @@ class WorseReflectionExtension implements Extension
     /**
      * {@inheritDoc}
      */
-    public function configure(Resolver $schema)
+    public function configure(Resolver $schema): void
     {
         $schema->setDefaults([
             self::PARAM_ENABLE_CACHE => true,
@@ -46,17 +46,17 @@ class WorseReflectionExtension implements Extension
             self::PARAM_ENABLE_CACHE => 'If reflection caching should be enabled',
             self::PARAM_CACHE_LIFETIME => 'If caching is enabled, limit the amount of time a cache entry can stay alive',
             self::PARAM_ENABLE_CONTEXT_LOCATION => <<<'EOT'
-If source code is passed to a ``Reflector`` then temporarily make it available as a
-source location. Note this should NOT be enabled if the source code can be
-located in another (e.g. when running a Language Server)
-EOT
+                If source code is passed to a ``Reflector`` then temporarily make it available as a
+                source location. Note this should NOT be enabled if the source code can be
+                located in another (e.g. when running a Language Server)
+                EOT
         ,
             self::PARAM_STUB_DIR => 'Location of the core PHP stubs - these will be scanned and cached on the first request',
             self::PARAM_STUB_CACHE_DIR => 'Cache directory for stubs',
         ]);
     }
 
-    public function load(ContainerBuilder $container)
+    public function load(ContainerBuilder $container): void
     {
         $this->registerReflection($container);
         $this->registerSourceLocators($container);
