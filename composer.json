@@ -16,7 +16,7 @@
         "phpactor/container": "^2.0.0",
         "phpactor/file-path-resolver-extension": "^0.3.4",
         "phpactor/logging-extension": "^0.3.4",
-        "phpactor/worse-reflection": "^0.4.4"
+        "phpactor/worse-reflection": "^0.4.6"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.0",

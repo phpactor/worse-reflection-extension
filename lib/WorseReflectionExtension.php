@@ -6,6 +6,8 @@ use Phpactor\Extension\Logger\LoggingExtension;
 use Phpactor\Extension\ClassToFile\ClassToFileExtension;
 use Phpactor\FilePathResolverExtension\FilePathResolverExtension;
 use Phpactor\WorseReflection\Bridge\Phpactor\MemberProvider\DocblockMemberProvider;
+use Phpactor\WorseReflection\Core\Cache;
+use Phpactor\WorseReflection\Core\Cache\TtlCache;
 use Phpactor\WorseReflection\Core\SourceCodeLocator\NativeReflectionFunctionSourceLocator;
 use Phpactor\WorseReflection\Core\SourceCodeLocator\StubSourceLocator;
 use Phpactor\WorseReflection\Bridge\Phpactor\ClassToFileSourceLocator;
@@ -76,6 +78,7 @@ class WorseReflectionExtension implements Extension
 
             if ($container->getParameter(self::PARAM_ENABLE_CACHE)) {
                 $builder->enableCache();
+                $builder->withCache($container->get(Cache::class));
             }
         
             foreach ($container->getServiceIdsForTag(self::TAG_SOURCE_LOCATOR) as $serviceId => $attrs) {
@@ -99,6 +102,10 @@ class WorseReflectionExtension implements Extension
 
         $container->register('worse_reflection.tolerant_parser', function (Container $container) {
             return new CachedParser();
+        });
+
+        $container->register(Cache::class, function (Container $container) {
+            return new TtlCache($container->getParameter(self::PARAM_CACHE_LIFETIME));
         });
     }
 
